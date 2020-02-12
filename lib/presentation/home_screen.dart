@@ -150,7 +150,7 @@ class _Home extends State<Home>{
     static _ViewModel fromStore(Store<AppState> store){
       //print("list store : "+store.state.products.length.toString());
       store.state.products.forEach((product) {
-        print("product : "+product.id.toString()+" name : "+product.name);
+        print("product : "+product.productID.toString()+" name : "+product.productName);
       });
 
       return _ViewModel(
@@ -173,9 +173,11 @@ class _Home extends State<Home>{
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text(product.name, style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold)),
+              Text(product.productName, style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold)),
               Text("Rp. "+product.price.toString()),
               Text("Qty : "+product.qty.toString()),
+              // Text("Fee : "+product.fee.toString()),
+              // Text("Status : "+product.status.toString()),
             ],
           )
         

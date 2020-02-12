@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:redux/redux.dart';
@@ -89,51 +90,7 @@ class ItemList extends StatelessWidget{
   var now = new DateTime.fromMicrosecondsSinceEpoch(epoch);
   var formatter = new DateFormat('dd-MM-yyy H:m');
   String date = formatter.format(now);
-
  
-    // return Container(
-    //       margin: new EdgeInsets.only(top: 8.0, left:16.0, right:16.0, bottom:8.0) ,
-    //       child: Column(
-    //         crossAxisAlignment: CrossAxisAlignment.start,
-    //         children: <Widget>[
-               
-    //           Text("Rp. "+bill.totalPrice.toString(), style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold)),
-    //           Text("No bill : "+bill.id.toString()),
-    //           Text(date),
-              
-    //         ],
-    //       )
-        
-    //     );
-
-        // return Container(
-          
-        //   child: Card(
-        //     child: Column(
-        //       mainAxisSize: MainAxisSize.min,
-        //       children: <Widget>[
-        //         const ListTile(
-                  
-        //           leading: Icon(Icons.album),
-        //           title: Text(''),
-        //           subtitle: Text('Music by Julie Gable. Lyrics by Sidney Stein.'),
-        //         ),
-        //         ButtonBar(
-        //           children: <Widget>[
-        //             FlatButton(
-        //               child: const Text('BUY TICKETS'),
-        //               onPressed: () { /* ... */ },
-        //             ),
-        //             FlatButton(
-        //               child: const Text('LISTEN'),
-        //               onPressed: () { /* ... */ },
-        //             ),
-        //           ],
-        //         ),
-        //       ],
-        //     ),
-        //   ),
-        // );
         FlutterMoneyFormatter fmf = FlutterMoneyFormatter(
             amount: bill.totalPrice.toDouble()
         );
@@ -141,33 +98,44 @@ class ItemList extends StatelessWidget{
                     child: new Column(
                       children: <Widget>[
                         // new Image.network('https://i.ytimg.com/vi/fq4N0hgOWzU/maxresdefault.jpg'),
-                        new Text('INV/'+bill.date.toString()+bill.id.toString(),style: new TextStyle(fontSize: 18.0,)),
-                        new Text(date),
+                        
+                        
                         new Padding(
                           padding: new EdgeInsets.all(7.0),
                           child: new Row(
                             children: <Widget>[
+                            //    new Padding(
+                            //    padding: new EdgeInsets.all(2.0),
+                            //    child: new Text('INV/'+bill.date.toString()+bill.id.toString(),style: new TextStyle(fontSize: 18.0,)),
+                            //  ),
+                            //    new Padding(
+                            //    padding: new EdgeInsets.all(2.0),
+                            //    child: new Text(date),
+                            //  ),
+                            // Spacer(flex: 1),
                              new Padding(
                                padding: new EdgeInsets.all(0.0),
-                               child: new Icon(Icons.attach_money),
+                               child: new Text('Total : Rp.',style :new TextStyle(fontSize:14.0,fontWeight: FontWeight.bold)),
                                
                              ),
                              new Padding(
                                padding: new EdgeInsets.all(2.0),
-                               child: new Text(fmf.output.nonSymbol.toString(),style: new TextStyle(fontSize: 18.0),),
+                               child: new Text(fmf.output.nonSymbol.toString(),style: new TextStyle(fontSize: 14.0,fontWeight: FontWeight.bold),),
+                             ),
+                               
+                             new Padding(
+                               padding: new EdgeInsets.all(2.0),
+                               child: new Text('Qty:',style: new TextStyle(fontSize:14.0,fontWeight: FontWeight.bold)),
                              ),
                              new Padding(
-                               padding: new EdgeInsets.all(7.0),
-                               child: new Icon(Icons.pie_chart),
-                             ),
-                             new Padding(
-                               padding: new EdgeInsets.all(7.0),
-                               child: new Text(bill.qty.toString(),style: new TextStyle(fontSize: 18.0)),
+                               padding: new EdgeInsets.all(2.0),
+                               child: new Text(bill.qty.toString(),style: new TextStyle(fontSize: 14.0,fontWeight: FontWeight.bold)),
                              )
 
                             ],
                           )
                         )
+
                       ],
                     ),
                   );

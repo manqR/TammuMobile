@@ -34,8 +34,8 @@ class DataTransaction extends StatelessWidget{
             for(int i=0; i < list.length ; i++){
                 var product =list[i];
                 var itemCount =product.qty * product.price;
-                print("PRODUCT ID "+product.id.toString());
-                var transc = new TransactionData(id: i, productId: product.id, count: product.qty, itemPrice: itemCount);
+                print("PRODUCT ID "+product.productID.toString());
+                var transc = new TransactionData(id: i, productId: product.productID, count: product.qty, itemPrice: itemCount);
                 listTransaction.add(transc);
             }
 
@@ -90,8 +90,8 @@ class _Transaction extends State<FormTransaction> {
     List<String> names = List<String>();
     localProductList = StoreProvider.of<AppState>(context).state.products;
     localProductList.forEach((d){ 
-      print("id product "+d.id.toString());
-      names.add(d.name);
+      print("id product "+d.productID.toString());
+      names.add(d.productName);
     });
 
     return Scaffold(
@@ -150,7 +150,7 @@ class _Transaction extends State<FormTransaction> {
                       lisProduct[index].qty.toString() +
                       ") Rp." +
                       totalItem.toString();
-                  var name = lisProduct[index].name;
+                  var name = lisProduct[index].productName;
 
                   print("item " + price.toString());
                   return Padding(
@@ -229,15 +229,15 @@ class _Transaction extends State<FormTransaction> {
                               onPressed: () {
                                 //Navigator.pop(context);
                                 setState(() {
-                                  var id = getProductByName(textCurrent).id;
-                                  var price =
-                                      getProductByName(textCurrent).price;
-                                  var qty =
-                                      int.parse(productQtyController.text);
+                                  var id = getProductByName(textCurrent).productID;
+                                  var price = getProductByName(textCurrent).price;
+                                  var qty = int.parse(productQtyController.text);
+                                  var status = 0;
+                                  var fee = 0;                                  
                                   print("qty " + qty.toString());
                                   var product = Product();
-                                  product.setData(id, textCurrent, price, qty);
-                                  print("Produt add id "+product.id.toString());
+                                  product.setData(id,textCurrent,price, qty,fee,status);
+                                  print("Produt add id "+product.productID.toString());
                                   lisProduct.add(product);
                                   totalNota = countTotal();
                                   Navigator.pop(context);
@@ -257,7 +257,7 @@ class _Transaction extends State<FormTransaction> {
   Product getProductByName(String name) {
     Product p = Product();
     for (Product product in localProductList) {
-      if (product.name == name) {
+      if (product.productName == name) {
         p = product;
       }
     }
@@ -267,7 +267,7 @@ class _Transaction extends State<FormTransaction> {
   bool isAnyResult() {
     bool anyTotal = false;
     for (Product product in localProductList) {
-      if (product.id == 0) anyTotal = true;
+      if (product.productID == 0) anyTotal = true;
     }
     return anyTotal;
   }

@@ -20,7 +20,7 @@ class LocalRepository implements DataRepository{
 
   @override
   Future saveProduct(Product product) async {
-    print("Name : "+product.name+" price : "+product.price.toString()+"  qty : "+product.qty.toString());
+    print("Name : "+product.productName+" price : "+product.price.toString()+"  qty : "+product.qty.toString());
     final prod = await DbHelper.db.insertProduct(product);
     return prod;
   }

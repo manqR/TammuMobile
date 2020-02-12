@@ -12,11 +12,11 @@ class AddProductForm extends StatelessWidget{
     
      return StoreConnector<AppState, OnSaveCallback>(
        converter: (Store<AppState> store){
-          return (name, prize, qty ){
-            print("Name "+name+" prize "+prize.toString()+" qty "+qty.toString());
-            store.dispatch(AddProductAction(Product(id:0,
-              name:name,
-              price:prize,
+          return (prouctName, price, qty ){
+            print("Name "+prouctName+" prize "+price.toString()+" qty "+qty.toString());
+            store.dispatch(AddProductAction(Product(productID:0,
+              productName:prouctName,
+              price:price,
               qty:qty
             )));
           };

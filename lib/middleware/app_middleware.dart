@@ -80,7 +80,7 @@ Middleware<AppState> _loadProducts(DataRepository dataRepo){
     dataRepo.loadAllProducts().then(
       (products){
         products.forEach((p){
-            print("pruduct all "+p.id.toString());
+            print("pruduct all "+p.productID.toString());
         });
         store.dispatch(
           ProductLoadedAction(

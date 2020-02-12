@@ -21,39 +21,73 @@ class DbHelper{
 
   initDB() async{
     var databasesPath = await getDatabasesPath();
-    String path = join(databasesPath, 'demo.db');
+    String path = join(databasesPath, 'tammu.db');
     return await openDatabase(path, version: 2, onOpen: (db) {},
         onCreate: (Database db, int version) async {
-      await db.execute("CREATE TABLE Product ("
-          "id INTEGER PRIMARY KEY,"
-          "product_name VARCHAR(40),"
-          "qty INTEGER,"
-          "price INTEGER"
+      
+      
+      await db.execute("CREATE TABLE tblproduct("
+          "productID INTEGER PRIMARY KEY NOT NULL,"
+          "productName VARCHAR(50) NOT NULL,"
+          "qty INTEGER NOT NULL,"
+          "price INTEGER NOT NULL,"
+          "fee INTEGER NOT NULL,"
+          "status INTEGER NOT NULL"
           ");");
 
-      await db.execute("CREATE TABLE ItemTransaction ("
-          "id_transaction INTEGER PRIMARY KEY,"
-          "product_id INTEGER,"
-          "count INTEGER,"
-          "bill_id INTEGER,"
-          "item_price INTEGER"
+      await db.execute("CREATE TABLE tblitemtransaction("
+          "transactionID VARCHAR(50) NOT NULL,"
+          "productID INTEGER NOT NULL,"
+          "qty INTEGER NOT NULL,"
+          "itemPrice INTEGER NOT NULL,"
+          "discount INTEGER NOT NULL,"
+          "urutan INTEGER PRIMARY KEY NOT NULL"
           ");");
 
-      await db.execute("CREATE TABLE Bill ("
-          "id_bill INTEGER PRIMARY KEY,"
-          "total_price INTEGER,"
-          "date INTEGER"
+
+      await db.execute("CREATE TABLE tbltransaction("
+          "transactionID INTEGER PRIMARY KEY NOT NULL,"          
+          "totalPrice INTEGER NOT NULL,"
+          "totalDiscount INTEGER,"
+          "voucherCode VARCHAR(20),"
+          "totalVoucher INTEGER,"
+          "userID INTEGER NOT NULL,"
+          "transactionDate INTEGER NOT NULL,"
+          "status INTEGER NOT NULL"
+          ");");
+
+
+
+      await db.execute("CREATE TABLE tblvoucher("
+          "voucherCode VARCHAR(50) PRIMARY KEY NOT NULL,"
+          "nominal INTEGER NOT NULL,"
+          "voucherDescription VARCHAR(50) NOT NULL,"
+          "startDate INTEGER NOT NULL,"
+          "endDate INTEGER NOT NULL"
+          ");");
+
+
+      await db.execute("CREATE TABLE user("
+          "userID CHAR(10) PRIMARY KEY NOT NULL,"
+          "userName VARCHAR(20) NOT NULL,"
+          "fullName VARCHAR(50) NOT NULL,"
+          "email VARCHAR(50) NOT NULL,"
+          "password VARCHAR(255) NOT NULL,"
+          "referralCode CHAR(50),"
+          "saldo INTEGER NOT NULL,"
+          "joinDate INTEGER NOT NULL,"
+          "resignDate INTEGER NOT NULL,"
+          "status INTEGER NOT NULL"
           ");");    
 
     });
   }
 
   insertProduct(Product product) async{
-    
     final db = await database;
     var raw = await db.rawInsert(
-      "INSERT into Product (product_name, qty, price) VALUES (?, ?, ?)",
-      [product.name, product.qty, product.price]
+      "INSERT into tblproduct (productName, qty, price, fee, status) VALUES (?, ?, ?,0,1)",
+      [product.productName, product.qty, product.price, product.fee, product.status]
     );
     return raw;
   }

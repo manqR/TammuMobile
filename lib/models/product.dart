@@ -1,21 +1,28 @@
 class Product{
-   int id;
-   String name;
-   int price;
+   int productID;
+   String productName;
    int qty;
-  Product({this.id, this.name, this.price, this.qty});
+   int price;
+   int fee;
+   int status;
+
+  Product({this.productID, this.productName, this.qty, this.price, this.fee, this.status});
 
   factory Product.fromMap(Map<String, dynamic> json) => new Product(
-        id: json["id"],
-        name: json["product_name"],
+        productID: json["productID"],
+        productName: json["productName"],
+        qty : json["qty"],
         price: json["price"],
-        qty: json["qty"]
+        fee: json["fee"],
+        status: json["status"]
       );
 
-  void setData(int id, String name, int price, int qty){
-    this.id = id;
-    this.name= name;
-    this.price = price;
-    this.qty = qty;
+  void setData(int productID, String productName, int qty, int price, int fee, int status){
+    this.productID = productID;
+    this.productName= productName;
+    this.qty = qty;    
+    this.price = price;    
+    this.fee = fee;
+    this.status = status;
   }
 }

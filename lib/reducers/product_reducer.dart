@@ -55,7 +55,7 @@ List<Product> _addProduct(List<Product> products, AddProductAction action){
 
 
 List<Product> _searchProduct(List<Product> products, SearchedProductAction action){
-  return products.where((prod) => prod.name.contains(action.query)).toList();
+  return products.where((prod) => prod.productName.contains(action.query)).toList();
 }
 
 Product _getProduct(Product product, GetOneProductAction action){
@@ -84,9 +84,9 @@ List<Product> _getAll(List<Product> products, ProductLoadedAction action){
 
 
 List<Product> _deleteProduct(List<Product> products, DeleteProductAction action){
-  return products.where((product) => product.id != action.id).toList();
+  return products.where((product) => product.productID != action.id).toList();
 }
 
 List<Product> _updateProduct(List<Product> products, UpdateProductAction action){
-  return products.map((product) => product.id  == action.id ? action.product: product); 
+  return products.map((product) => product.productID  == action.id ? action.product: product); 
 }
