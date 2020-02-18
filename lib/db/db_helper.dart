@@ -143,6 +143,32 @@ Future<Product> getProduct(String name) async{
     return list[0];
   }
 
+ Future<List<Product>> getAllProduct() async {
+    final db = await database;
+    final res = await db.rawQuery("SELECT * FROM Product");
+
+    List<Product> list =
+        res.isNotEmpty ? res.map((c) => Product.fromJson(c)).toList() : [];
+
+    return list;
+  }
+
+ Future<int> deleteAllEmployees() async {
+    final db = await database;
+    final res = await db.rawDelete('DELETE FROM Product');
+
+    return res;
+  }
+
+  // Insert employee on database
+  createProduct(Product newProduct) async {
+    await deleteAllEmployees();
+    final db = await database;
+    final res = await db.insert('Product', newProduct.toJson());
+
+    return res;
+  }
+
   Future<List<Bill>> getBills() async{
 
     final db = await database;

@@ -25,6 +25,7 @@ dependencies:
   sqflite: any
   autocomplete_textfield: 1.6.4
   intl: ^0.15.7
+  dio: ^3.0.8
   flutter_stetho:
     git:
       url: https://github.com/brianegan/flutter_stetho.git
