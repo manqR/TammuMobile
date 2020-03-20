@@ -4,15 +4,25 @@ import 'package:dio/dio.dart';
 
 
 class ProductApiProvider {
-  Future<List<Product>> getAllProduct() async {
-    var accessKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImRlbW8yIiwiaWF0IjoxNTgyMDIwMjAxLCJleHAiOjE1ODIxMDY2MDF9.SYWOD0pQfGknOo6E053vSyf2iktmWua854owwkzSqMs";
-    var url = "http://10.1.7.108:3000/api/auth/product?x-access-token="+accessKey+"";
-    Response response = await Dio().get(url);
+  Future<List<Product>> getAllProductApi() async {
+    var accessKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImRlbW80IiwiaWF0IjoxNTg0Njc4Mzg0LCJleHAiOjE1ODQ3NjQ3ODR9.0xZqWEmlEb01wxF1xJBapCnfLKnlzxyHOWS8hnAiGJI";
+    var url = "http://10.0.2.2:3000/api/auth/listProduct";
+    
 
-    return (response.data as List).map((product) {
-      print('Inserting $product');
-      DbHelper.db.createProduct(Product.fromJson(product));
-    }).toList();
+
+    Dio dio = new Dio();
+    
+    await dio.get("http://10.0.2.2:3000/api/auth/listProduct");
+    print("xxx");
+    // dio.options.headers['content-Type'] = 'application/json';
+    // dio.options.headers["x-access-token"] = accessKey;
+    // print(dio);
+    // Response response = await dio.get(url);
+    
+    // return (response.data as List).map((product) {
+    //   print('Inserting $product');
+    //   DbHelper.db.createProduct(Product.fromJson(product));
+    // }).toList();
   }
 }
 

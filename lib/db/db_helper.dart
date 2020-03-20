@@ -115,11 +115,23 @@ class DbHelper{
   }
 
 
+ Future<List<Product>> getAllProductApi() async {
+    final db = await database;
+    final res = await db.rawQuery("SELECT * FROM tblproduct");
+
+    List<Product> list =
+        res.isNotEmpty ? res.map((c) => Product.fromJson(c)).toList() : [];
+
+    return list;
+  }
+
+
   Future<List<Product>> getAllproduct() async {
     final db = await database;
-    var res = await db.rawQuery("SELECT * FROM Product");
-    print("load product "+res.isEmpty.toString());
-    List<Product> list =res.isNotEmpty ? res.map((c) => Product.fromMap(c)).toList() : [];
+    var res = await db.rawQuery("SELECT * FROM tblproduct");
+
+    List<Product> list =
+        res.isNotEmpty ? res.map((c) => Product.fromMap(c)).toList() : [];
     
     return list;
   }
@@ -127,7 +139,7 @@ class DbHelper{
   Future<List<Product>> searchProduct(String name) async{
 
     final db = await database;
-    var res = await db.rawQuery("SELECT * FROM Product WHERE product_name like '%"+name+"%'");
+    var res = await db.rawQuery("SELECT * FROM tblproduct WHERE product_name like '%"+name+"%'");
     List<Product> list =res.isNotEmpty ? res.map((c) => Product.fromMap(c)).toList() : [];
     
     return list;
@@ -137,32 +149,24 @@ class DbHelper{
 Future<Product> getProduct(String name) async{
 
     final db = await database;
-    var res = await db.rawQuery("SELECT * FROM Product WHERE product_name ='"+name+"'");
+    var res = await db.rawQuery("SELECT * FROM tblproduct WHERE product_name ='"+name+"'");
     List<Product> list =res.isNotEmpty ? res.map((c) => Product.fromMap(c)).toList() : [];
     
     return list[0];
   }
 
- Future<List<Product>> getAllProduct() async {
+
+
+ Future<int> deleteProducts() async {
     final db = await database;
-    final res = await db.rawQuery("SELECT * FROM Product");
-
-    List<Product> list =
-        res.isNotEmpty ? res.map((c) => Product.fromJson(c)).toList() : [];
-
-    return list;
-  }
-
- Future<int> deleteAllEmployees() async {
-    final db = await database;
-    final res = await db.rawDelete('DELETE FROM Product');
+    final res = await db.rawDelete('DELETE FROM tblproduct');
 
     return res;
   }
 
   // Insert employee on database
   createProduct(Product newProduct) async {
-    await deleteAllEmployees();
+    await deleteProducts();
     final db = await database;
     final res = await db.insert('Product', newProduct.toJson());
 
@@ -182,7 +186,7 @@ Future<Product> getProduct(String name) async{
 
   Future<List<TransactionData>> getDetailTransaction(int idBill) async {
     final db = await database;
-    var res = await db.rawQuery("SELECT id, product_id, count, item_price, bill_id, product.product_name as name FROM ItemTransaction INNER JOIN Product ON ItemTransaction.product_id = Product.id WHERE bill_id = "+idBill.toString());
+    var res = await db.rawQuery("SELECT id, product_id, count, item_price, bill_id, tblproduct.product_name as name FROM ItemTransaction INNER JOIN tblproduct ON ItemTransaction.product_id = tblproduct.id WHERE bill_id = "+idBill.toString());
     List<TransactionData> list =res.isNotEmpty ? res.map((c) => TransactionData.fromMap(c)).toList() : [];
     
     return list;

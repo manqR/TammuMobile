@@ -2,6 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:myapp/db/db_helper.dart';
+import 'package:myapp/db/product_api.dart';
 import 'package:redux/redux.dart';
 import 'package:myapp/actions/action.dart';
 import 'package:myapp/models/app_route.dart';
@@ -32,6 +34,8 @@ class _HomeScreen extends State<HomeScreen>{
 
   var selectedId = 0;
   var titleButton = "";
+  var isLoading = false;
+
  
   @override
     void initState() {
@@ -46,6 +50,26 @@ class _HomeScreen extends State<HomeScreen>{
     return Scaffold(
       appBar: AppBar(
         title: Text("Tammu Roastery"),
+        actions: <Widget>[
+          Container(
+            padding: EdgeInsets.only(right: 10.0),
+            child: IconButton(
+              icon: Icon(Icons.settings_input_antenna),
+              onPressed: () async {
+                await _loadFromApi();
+              },
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.only(right: 10.0),
+            child: IconButton(
+              icon: Icon(Icons.delete),
+              onPressed: () async {
+                await _deleteData();
+              },
+            ),
+          ),
+        ],
       ),
       body: Scaffold(
         body : listWidget[selectedId],
@@ -75,6 +99,7 @@ class _HomeScreen extends State<HomeScreen>{
                 //   titleButton = "Add Products";
                   
               });
+              
           },
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
@@ -97,6 +122,44 @@ class _HomeScreen extends State<HomeScreen>{
       
     );
   }
+
+  
+  _loadFromApi() async {
+   
+    setState(() {
+      isLoading = true;
+    });
+
+    var apiProvider = ProductApiProvider();
+    
+    await apiProvider.getAllProductApi();
+    print('Load product');
+    // wait for 2 seconds to simulate loading of data
+    await Future.delayed(const Duration(seconds: 2));
+
+    setState(() {
+      isLoading = false;
+    });
+  }
+  
+  
+  _deleteData() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    await DbHelper.db.deleteProducts();
+
+    // wait for 1 second to simulate loading of data
+    await Future.delayed(const Duration(seconds: 1));
+
+    setState(() {
+      isLoading = false;
+    });
+
+    print('All employees deleted');
+  }
+  
 
 }
 

@@ -41,7 +41,7 @@ class _SignInScreenState extends State<SignInScreen> {
   double _pixelRatio;
   bool _large;
   bool _medium;
-  TextEditingController emailController = TextEditingController();
+  TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   GlobalKey<FormState> _key = GlobalKey();
 
@@ -66,7 +66,6 @@ class _SignInScreenState extends State<SignInScreen> {
               welcomeTextRow(),
               signInTextRow(),
               form(),
-              forgetPassTextRow(),
               SizedBox(height: _height / 12),
               button(),              
             ],
@@ -165,7 +164,7 @@ class _SignInScreenState extends State<SignInScreen> {
         key: _key,
         child: Column(
           children: <Widget>[
-            emailTextFormField(),
+            inputTextFormField(),
             SizedBox(height: _height / 40.0),
             passwordTextFormField(),
           ],
@@ -174,12 +173,12 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 
-  Widget emailTextFormField() {
+  Widget inputTextFormField() {
     return CustomTextField(
-      keyboardType: TextInputType.emailAddress,
-      textEditingController: emailController,
+      keyboardType: TextInputType.text,
+      textEditingController: usernameController,
       icon: Icons.email,
-      hint: "Email ID",
+      hint: "Username",
     );
 
   }
@@ -194,41 +193,16 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 
-  Widget forgetPassTextRow() {
-    return Container(
-      margin: EdgeInsets.only(top: _height / 40.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Text(
-            "Forgot your password?",
-            style: TextStyle(fontWeight: FontWeight.w400,fontSize: _large? 14: (_medium? 12: 10)),
-          ),
-          SizedBox(
-            width: 5,
-          ),
-          GestureDetector(
-            onTap: () {
-              print("Routing");
-            },
-            child: Text(
-              "Recover",
-              style: TextStyle(
-                  fontWeight: FontWeight.w600, color: Colors.orange[200]),
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
   Widget button() {
     return RaisedButton(
       elevation: 0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
       onPressed: () {
 
-        
+         Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => HomePage()),
+            );
           // return StoreProvider(
           //   store:store,
           //   child:MaterialApp(
@@ -261,12 +235,6 @@ class _SignInScreenState extends State<SignInScreen> {
           //     }   
           //   ),
           // );
-
-           Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => HomePage()),
-            );
-      
           // print("Routing to your account");
           // Scaffold
           //     .of(context)
@@ -311,7 +279,7 @@ class HomePage extends StatelessWidget {
               return HomeScreen(
                 onInit: (){
                   print("init home : ");
-                   StoreProvider.of<AppState>(context).dispatch(LoadBills());
+                   
                    StoreProvider.of<AppState>(context).dispatch(LoadProductAction());
                 },
               );
@@ -335,4 +303,6 @@ class HomePage extends StatelessWidget {
         ),
       );
     }
+
+    
 }
